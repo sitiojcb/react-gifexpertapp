@@ -1,0 +1,359 @@
+-------------------------------------------------------------
+--------------------Seccion 6 ---------------------------------
+------------------GifExpertApp -------------------------------
+video 65 -- intro 
+------------------------------------------------------------
+video 66 -- ¿Qué veremos en esta sección?
+
+Custom Hooks
+
+Fetch hacia un API
+
+Comunicación entre componentes
+
+Clases de CSS
+
+Animaciones
+
+Enviar métodos como argumentos
+
+Crear listados
+
+keys
+
+Giphy
+
+Esta es una aplicación pequeña pero muy ilustrativa que explica cómo utilizar React + customHooks para poder resolver necesidades en específico que podremos re-utilizar después.
+
+------------------------------------------------------------
+video 67 -- demo de la app
+------------------------------------------------------------
+video 68 -- inicio GifExpertApp 
+
+https://developers.giphy.com/
+
+uso la api key del proyecto anterior 
+
+3jSX0TttTLhmjW4IgVEDkkFuB2nT63ms
+
+---
+buscamos end points 
+https://developers.giphy.com/docs/api/endpoint#search
+
+creo app: 
+npx create-react-app gif-expert-app 
+renombro a 04-gif-expert-app
+
+--------------------------------------------------------------
+video 69 -- GifExpertApp compnent 
+https://es.reactjs.org/docs/faq-structure.html
+
+https://hackernoon.com/structuring-projects-and-naming-components-in-react-1261b6e18d76
+
+
+borro 
+files: src/App/js/css/test 
+contenido index.css 
+quito de index.js serviceworker y app 
+
+quito <React.StrictMode>
+borro el logo 
+
+creamos componente GifExpertApp.js
+----------------------------------------------------------------
+video 70 -- creando lista de categorias 
+
+ const handleAdd = () => {
+        const agregar = 'agregado'
+       // categories.push(agregar)
+//comenta no debemos mutarlo de esa manera!
+        setCategories([...categories, agregar])
+    }
+----
+ <button onClick={handleAdd}>Agregar</button>
+----------
+// categories.push(agregar)
+//comenta no debemos mutarlo de esa manera!
+setCategories([...categories, agregar])
+con el spread ... mantiene el array original, agrego algo mas
+
+podemos agregar al inicio del array con 
+setCategories([agregar, ...categories])
+----
+otra forma usando callback cats 
+setCategories(cats => [...cats, agregar])
+
+----------------
+pregunta:¿Por qué no se recomienda usar el key={index}?
+
+resp: React usa las keys para saber que elemento cambio, digamos que tu tienes 5 elementos que corresponden [0,1,2,3,4] si tu quitas uno de en medio o haces un push, el indice 2 seguira siendo 2 pero no será el mismo componente, es decir imaginate que tienes un input con value hola en el index 2 y agregas otro input al principio con algun boton que agregue inputs, ese hola pasara ahora a pertenecer al que era el index 1(que ahora será index 2 por el push que hiciste)   espero haberme explicado.
+------------------------------------------------------------
+video 71 -- componente AddCategory 
+
+
+---------------------------------------------------------------
+video 72 -- comunicacion entre componentes 
+
+como llamamos setCategories desde mi AddCategory component?
+la resp es mediante props o bien desestructurandolo en el argumento
+
+pregunta:
+Cual es la razón técnica de usar o no push?
+porque no es conveniente usar let en el arreglo y hacer push sobre ese arreglo?
+
+resp:usar push es una mala practica. 
+el metodo setCategorias que se define en el hook useState, se encarga de indicar el nuevo valor que tenga la constante que definimos al iniciar el hook, en este caso el array con las categorias.
+
+Por tanto, push es una funcion que modifica el array original y al ser una constante y no ser el metodo setCategorias del useState que esta modificando ese array da error.
+
+En cambio, el operador spread clona el array original y le agrega el valor que deseamos, devolviendo de esta manera un nuevo array. Y la funcion setsetCategorias del hook indicara que la constante que tiene el estado anterior sera igual al nuevo array que obtuvimos con el operador spread.
+-----
+pregunta: set Categories
+
+resp: 
+categories=>[...categories,inputValue]
+Seria lo mismo que esto:
+
+function newState(prevState) {
+ return [...prevState, 'newValue']
+}
+donde categories es como prevState y el inputValue como newValue, entonces va a retornar un nuevo arreglo con los valores anteriores más el newValue.
+
+los tres puntos son el spread operator que sirve para desestructurar un arreglo u objeto, un ejemplo:
+
+const prevState = [1, 2, 3, 4]
+const newState = [...prevState, 5, 6]
+console.log(newState) //[1, 2, 3, 4, 5, 6]
+el spread operator extrae todos los valores del arreglo (prevState) y lo almacena en otro nuevo.
+------------------------------------------------------------
+video 73 -- fetch API - obtener img deseadas
+
+https://developers.giphy.com/docs/api/endpoint/#search
+creo components/GifGrid.js 
+donde voy a obtener la colleccion de elem que coincidan con determinada categoria 
+
+comenta que 
+categories.map(category => {
+    return <li key={category}>{category}</li>
+})
+
+en lugar de esto podemos hacer 
+categories.map(category => (
+ <li key={category}>{category}</li>
+))
+al colocarlo entre () indico es un objeto y no uso el return 
+es como si escribiese en una sola linea 
+
+get Url: api.giphy.com/v1/gifs/search
+vemos en postman 
+da error:
+{
+    "message": "No API key found in request"
+}
+
+copio api key de mi app
+3jSX0TttTLhmjW4IgVEDkkFuB2nT63ms
+lo mando como argumento en Params 
+creo 
+api_key 3jSX0TttTLhmjW4IgVEDkkFuB2nT63ms
+
+vemos devuelve la data 
+
+nada porque en el search no busco de momento nada 
+agrego a params q y limit luego copio url 
+"url": "https://giphy.com/gifs/rick-and-morty-tJqyalvo9ahykfykAj"
+
+---
+al usar ?
+url: img.images?.downsized_medium.url
+pone como condicion entonces si hay img la usa..
+
+mas info optional chainning operation 
+https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Operadores/Encadenamiento_opcional
+
+-----------------------------------------------------------
+video 74 -- useEffect 
+comenta que se puede formar un loop infinito
+lo evitamos usando useEffect 
+en el segundo arg vemos 
+}, [])
+el array vacio indica se va a renderizar una vez cuando se lo llama.
+
+--------------------------------------------------------------
+video 75 -- mostrar titulos de las imagenes 
+
+creamos components/GifGritItem 
+------------------------------------------------------------
+video 76 -- class de css 
+
+recordar que class es palabra reservada en JS por eso usamos 
+className 
+
+--------------------------------------------------------------
+video 77 -- helpers - getGifs 
+
+comenta que si uso ${category} puede venir con espacios...
+para sanitizar usamos 
+encodeURI(category)
+
+comenta que en el componente getGifs 
+la funcion async conviene quitarla y dejar solo lo del componente 
+
+lo llevamos a la carpeta helpers /getGifs.js
+(podemos llamarla de cualquier manera)
+colocamos la funcion 
+recuerda que devuelve una promesa 
+---
+luego en GifGrid cambia 
+useEffect(() => {
+        getGifs() //esto ahora no existe
+    }, [])
+(debemos importar getGifs)
+por:
+useEffect(() => {
+    getGifs(category)
+// .then(imgs => setImages(imgs)) //que es igual a
+    .then(setImages)
+}, [category])
+si no coloco en el array category 
+me da warning 
+ademas queremos que si la category cambia...entonces renderiza y ejecuta el fetch nuevamente 
+
+--------------------------------------------------------------
+video 78 -- custom hook 
+
+extraigo logica de un componente y lo reutilizo 
+
+creo carpeta hooks / useFetchGifs.js 
+
+un hook seria entonces: 
+export const useFetchGifs = () => {
+
+}
+no hace falta importar react a no ser que utilicemos jsx o el estado como useState
+al igual que el return 
+----------
+pregunta:
+¿Cuál sería la diferencia de un helper a un custom hook?
+
+resp1:uno usa un hook como núcleo a fuerza, por eso se llama custom hooks.
+Y el otro puede ser una función que puede hacer una iteración, que cambie un texto, procesar un error, etc... Son herramientas que tal ves ocupes en algún componente y no tengas que estar escribiendo el mismo código en diferentes lado. 
+
+resp2: los dos son funciones, pero su diferencia tiene que ver con el comportamiento con la librería .
+
+Si influye en el ciclo de vida del componente es un hook (por ejemplo useEffect y useState influyen en el ciclo de vida del componente).
+
+Un helper son eventos o instrucciones que se llaman solamente cuando son requeridos.
+---------------------------------------------------------------
+video 79 -- useFetchGifs - obtener imagenes y bandera de carga 
+
+recuerda que  useEffect(() => { no puede ser async pero 
+si podemos agregar una funcion async dentro del useEffect 
+
+en GifGrids.js 
+comenta que en lugar de usar 
+  {loading ? <p>Loading...</p> : null}
+  usa
+  {loading && <p>Loading...</p> }
+  si el primero(loading es true) muestra Loading... pero si es false no hace nada 
+  comenta que es mas rapido 
+  tambien comenta que en lugar de usar 
+   const {data, loading} 
+   y abajo 
+   data.map(img => (
+para que sea mas legible al desestructurar puedo asignarle el nombre que quiero o el valor entonces usa 
+ const {data:images, loading}
+ y abajo
+ images.map(img => (
+----
+pregunta:¿Cómo sabe el componente GifGrid que se ha cambiado el estado?  
+ resp: https://medium.com/@guptagaruda/react-hooks-understanding-component-re-renders-9708ddee9928#02d6
+
+---------------------------------------------------------
+video 80 -- animaciones por css 
+
+https://animate.style/
+
+npm install animate.css --save
+
+luego importamos import 'animate.css'
+(en el curso copia el link del cdn en public/index.html)
+
+para usarlo por ej:
+className="animate__animated animate__fadeInDown
+
+ojo cambia en version 4 !! 
+
+------------
+da error porque tengo deshabilitado animaciones en windows...
+voy a settings easy acces y habilito animaciones 
+
+https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion
+
+--------------------------------------------------------------
+video 81 -- codigo de la seccion 
+
+---cambio 
+<img src={url} alt={title} />
+por backgroundImage
+-----------------------------------------------------------------
+--------------------Seccion 7 ----------------------------------
+-------generando el build y despliegue de GitHub Pages ---------
+video 82 -- intro 
+
+----------------------------------------------------------
+video 83 -- ¿Qué veremos en esta sección?
+
+Aprender cómo realizar backups a repositorios de Git
+
+Subir nuestro repositorio a GitHub
+
+Uso de Github Pages
+
+Desplegar nuestra aplicación de React
+
+Generar build de producción de nuestra aplicación
+
+
+Aunque es una sección pequeña, les puede servir para desplegar infinidad de proyectos de React de forma gratuita, sin contar que tendrán respaldos de sus proyectos por si llegan a perder su trabajo que tenían localmente en su computadora.
+--------------------------------------------------------
+video 84 -- Prep proyecto GitHub Pages
+
+para subir el proyecto ejec npm build 
+
+chequeamos en servidor
+https://www.npmjs.com/package/http-server
+
+montar servidor local con node:
+global:
+npm install --global http-server 
+en el proyecto 
+npm install http-server 
+o con npx 
+npx http-server [path] [options]
+
+en windows eje como administrador 
+linux con sudo npm install 
+luego voy a la carpeta build 
+y corro http-server -o 
+y levanta el servidor desde esa carpeta!
+----------------------------------------------------------------
+video 85 -- desplegando la app en GitHub 
+
+configurar name 
+https://docs.github.com/en/enterprise/2.13/user/articles/setting-your-username-in-git
+
+https://github.com/
+
+crear nueva repo 
+git --version 
+git init 
+preparar todos mis archivos: git add .
+primera foto: git commit -m "primer commit"
+
+renombramos carpeta builds ahora docs 
+git add .
+git commit -m "renombre build ahora docs"
+
+crea repo: react-gifexpertapp 
+public 

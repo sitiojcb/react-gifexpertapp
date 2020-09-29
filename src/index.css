@@ -1,13 +1,72 @@
+* {
+  font-family: helvetica, arial, sans-serif;
+}
 body {
-  margin: 0;
+  padding: 10px;
+  /* margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  -moz-osx-font-smoothing: grayscale; */
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+
+.titulo {
+  display: block;
+  max-width: 300px;
+  text-align: center;
+  margin: 0 auto 20px;
+  padding: 6px;
+  background-color : rgba(206,220,231,1);
+}
+.buscar {
+  text-align: center;
+  display: block;
+  color: #888;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-size: .7rem;
+}
+input {
+   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+    width: 100%;
+    padding: 6px;
+    font-size: 1.2rem;
+    color: gray;
+    max-width: 300px;
+    margin: 0 auto;
+    display: block;
+}
+.card-grid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.card {
+  align-content: center;
+  border: 1px solid #2b275c;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  margin-right: 10px;
+ background-color : rgba(206,220,231,1);
+}
+.card p {
+  padding: 5px;
+  text-align: center;
+  word-wrap: wrap;
+  max-width: 300px;
+   
+}
+/* .card img {
+   max-height: 170px;
+} */
+.img-container {
+  background-size: cover;
+  
+  min-width: 300px;
+  max-width: 300px;
+  height: 170px;
 }

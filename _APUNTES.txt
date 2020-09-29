@@ -359,6 +359,35 @@ crea repo: react-gifexpertapp
 public 
 
 git remote add origin git@github.com:sitiojcb/react-gifexpertapp.git
+---tuve problema porque 
+al crear la repo agregue el readme, 
+luego al querer hacer push da error porque 
+no tengo ese readme en mi local... por eso primero debo hacer 
+git purll --allow-unrelated-histories git@github.com:sitiojcb/react-gifexpertapp.git
+
+luego git add . + commit + push
 
 git push -u origin master 
 
+-------------------------------------------
+en github voy a settings abajo veo GitHub pages 
+veo Source 
+elijo master branch/docs 
+doy save y veo 
+Your site is ready to be published at https://sitiojcb.github.io/react-gifexpertapp/
+
+hay que esperar a que este en verde 
+veo pag en blanco y al inspeccionar 
+error 404 
+Failed to load resource: the server responded with a status of 404 ()
+
+eso es porque falta agregar /sitojcb/repo 
+voy a docs/index.html 
+va a estar minificado 
+en view -- comand pallete -- format document 
+ahora se ve para poder editarlo y en los links agrego ./
+ej donde dice /favicon.ico ahora ./favicon.ico 
+
+git add . 
+git commit -m "actualizo index.html agregando . "
+git push 

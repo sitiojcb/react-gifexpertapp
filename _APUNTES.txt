@@ -357,3 +357,8 @@ git commit -m "renombre build ahora docs"
 
 crea repo: react-gifexpertapp 
 public 
+
+git remote add origin git@github.com:sitiojcb/react-gifexpertapp.git
+
+git push -u origin master 
+
